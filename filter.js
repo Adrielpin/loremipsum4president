@@ -1,3 +1,10 @@
+document.addEventListener('load', replace());
+
+window.addEventListener('scroll', function (e) {
+  replace();
+});
+
+function replace() {
 // Convert HTMLCollection/NodeList to common JavaScript array with spread operator
 const elements = [...document.getElementsByTagName('*')];
 
@@ -121,22 +128,24 @@ const partidosNames = [
   "PARTIDO DA MULHER BRASILEIRA",
 ];
 
-elements.forEach((element) => {
-  const validNodes = [...element.childNodes].filter(n => n.nodeType === 3);
-  
-  validNodes.forEach((node) => {
-    const text = node.nodeValue;
+  elements.forEach((element) => {
+    const validNodes = [...element.childNodes].filter(n => n.nodeType === 3);
     
-    const politicsSUX = text.replace(new RegExp(politicsNames.join('|'), 'ig'), 'Politico Qualquer')
-    .replace(new RegExp(exPresidents.join('|'), 'ig'), 'Politico')
-    .replace(new RegExp(partidosSiglas.join('|'), 'g'), 'PQ')
-    .replace(new RegExp(partidosNames.join('|'), 'ig'), 'Partido Qualquer');
-    
-    if (politicsSUX !== text) {
-      node.nodeValue = politicsSUX;
-    }
-    
+    validNodes.forEach((node) => {
+      const text = node.nodeValue;
+      
+      const politicsSUX = text.replace(new RegExp(politicsNames.join('|'), 'ig'), 'Politico Qualquer')
+      .replace(new RegExp(exPresidents.join('|'), 'ig'), 'Politico')
+      .replace(new RegExp(partidosSiglas.join('|'), 'g'), 'PQ')
+      .replace(new RegExp(partidosNames.join('|'), 'ig'), 'Partido Qualquer');
+      
+      if (politicsSUX !== text) {
+        node.nodeValue = politicsSUX;
+      }
+      
+      
+    });
     
   });
   
-});
+}
